@@ -15,7 +15,7 @@ public class CameraRenderer
 
 	CullingResults cullingResults;//剔除后的结果
 
-	static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");
+	static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnilt");//?????
 	public void Render(ScriptableRenderContext context, Camera camera)
 	{
 		this.context = context;
@@ -32,9 +32,11 @@ public class CameraRenderer
 	}
     void DrawVisibleGeometry()
     {
-		SortingSettings sortingSettings = new SortingSettings(camera);
+		SortingSettings sortingSettings = new SortingSettings(camera) { 
+			criteria = SortingCriteria.CommonOpaque
+		};
 		DrawingSettings drawingSettings = new DrawingSettings(unlitShaderTagId, sortingSettings);//传shaderPassName，相机的渲染顺序设置
-		FilteringSettings filteringSettings = new FilteringSettings(RenderQueueRange.all);
+		FilteringSettings filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
 		context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);//对剔除后的结果进行渲染
 		context.DrawSkybox(camera);
     }
