@@ -13,10 +13,18 @@ public class CameraRenderer
 		name = bufferName,
 	};
 
+	CullingResults cullingResults;//剔除后的结果
+
+	static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");
 	public void Render(ScriptableRenderContext context, Camera camera)
 	{
 		this.context = context;
 		this.camera = camera;
+
+        if (!Cull())
+        {
+			return;
+        }
 
 		Setup();
 		DrawVisibleGeometry();
@@ -24,6 +32,10 @@ public class CameraRenderer
 	}
     void DrawVisibleGeometry()
     {
+		SortingSettings sortingSettings = new SortingSettings(camera);
+		DrawingSettings drawingSettings = new DrawingSettings(unlitShaderTagId, sortingSettings);//传shaderPassName，相机的渲染顺序设置
+		FilteringSettings filteringSettings = new FilteringSettings(RenderQueueRange.all);
+		context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);//对剔除后的结果进行渲染
 		context.DrawSkybox(camera);
     }
 	void Setup()
@@ -47,5 +59,15 @@ public class CameraRenderer
 		//命令缓存区的提交和清除总是在一起执行
 		context.ExecuteCommandBuffer(buffer);
 		buffer.Clear();
+    }
+
+	bool Cull()
+    {
+		if(camera.TryGetCullingParameters(out ScriptableCullingParameters p))
+        {
+			cullingResults = context.Cull(ref p);
+			return true;
+        }
+		return false;
     }
 }
