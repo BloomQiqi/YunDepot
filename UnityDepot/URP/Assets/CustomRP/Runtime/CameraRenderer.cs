@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering;
 
-public class CameraRenderer
+public partial class CameraRenderer
 {
 	ScriptableRenderContext context;
 
@@ -16,6 +16,7 @@ public class CameraRenderer
 	CullingResults cullingResults;//剔除后的结果
 
 	static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnilt");//?????
+
 	public void Render(ScriptableRenderContext context, Camera camera)
 	{
 		this.context = context;
@@ -28,7 +29,9 @@ public class CameraRenderer
 
 		Setup();
 		DrawVisibleGeometry();
-		Submit();
+        DrawUnsupportedShaders();
+        DrawGizmos();//绘制 如scene场景下 摄像机的范围线
+        Submit();
 	}
     void DrawVisibleGeometry()
     {
@@ -39,7 +42,15 @@ public class CameraRenderer
 		FilteringSettings filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
 		context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);//对剔除后的结果进行渲染
 		context.DrawSkybox(camera);
-    }
+
+		sortingSettings.criteria = SortingCriteria.CommonTransparent;
+		drawingSettings.sortingSettings = sortingSettings;
+		filteringSettings.renderQueueRange = RenderQueueRange.transparent;
+
+		context.DrawRenderers(
+			cullingResults, ref drawingSettings, ref filteringSettings
+		);
+	}
 	void Setup()
 	{
 		context.SetupCameraProperties(camera);//在清除渲染目标之前调用则可清除相机属性的设置 否则会使用一个全屏的着色器填充清除
