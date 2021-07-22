@@ -22,11 +22,12 @@ public partial class CameraRenderer
 		this.context = context;
 		this.camera = camera;
 
-        if (!Cull())
+        PrepareBuffer();//多相机时，为不同的缓冲区命名，便于调试查找
+        PrepareForSceneWindow();
+		if (!Cull())
         {
 			return;
         }
-
 		Setup();
 		DrawVisibleGeometry();
         DrawUnsupportedShaders();
@@ -35,14 +36,17 @@ public partial class CameraRenderer
 	}
     void DrawVisibleGeometry()
     {
+		//不透明渲染
 		SortingSettings sortingSettings = new SortingSettings(camera) { 
 			criteria = SortingCriteria.CommonOpaque
 		};
 		DrawingSettings drawingSettings = new DrawingSettings(unlitShaderTagId, sortingSettings);//传shaderPassName，相机的渲染顺序设置
 		FilteringSettings filteringSettings = new FilteringSettings(RenderQueueRange.opaque);
 		context.DrawRenderers(cullingResults, ref drawingSettings, ref filteringSettings);//对剔除后的结果进行渲染
+		//绘制天空盒
 		context.DrawSkybox(camera);
 
+		//透明渲染
 		sortingSettings.criteria = SortingCriteria.CommonTransparent;
 		drawingSettings.sortingSettings = sortingSettings;
 		filteringSettings.renderQueueRange = RenderQueueRange.transparent;
@@ -55,13 +59,13 @@ public partial class CameraRenderer
 	{
 		context.SetupCameraProperties(camera);//在清除渲染目标之前调用则可清除相机属性的设置 否则会使用一个全屏的着色器填充清除
 		buffer.ClearRenderTarget(true, true, Color.clear);
-		buffer.BeginSample(bufferName);
+		buffer.BeginSample(SampleName);
 		//设置相机的一些属性 例如 视图投影矩阵 unity_MatrixVP
 		ExecuteBuffer();
 	}
 	void Submit()
     {
-		buffer.EndSample(bufferName);
+		buffer.EndSample(SampleName);
 		ExecuteBuffer();
 		context.Submit();
     }

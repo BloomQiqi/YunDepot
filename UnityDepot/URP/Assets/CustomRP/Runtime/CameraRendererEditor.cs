@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEditor;
+using UnityEngine.Profiling;
 
 public partial class CameraRenderer
 {
 	partial void DrawGizmos();
 	partial void DrawUnsupportedShaders();
+	//渲染世界几何图形 如UI在Scene View窗口的显示
+	partial void PrepareForSceneWindow();
+	//
+	partial void PrepareBuffer();
 #if UNITY_EDITOR
 
 	static ShaderTagId[] legacyShaderTagIds = {
@@ -17,6 +22,9 @@ public partial class CameraRenderer
 		new ShaderTagId("VertexLM")
 	};
 	static Material errorMaterial;
+
+	string SampleName { get; set; }
+
 	partial void DrawUnsupportedShaders()
     {
 		if(errorMaterial == null)
@@ -45,6 +53,21 @@ public partial class CameraRenderer
 			context.DrawGizmos(camera, GizmoSubset.PostImageEffects);
         }
     }
+	partial void PrepareForSceneWindow()
+    {
+		if(camera.cameraType == CameraType.SceneView)
+        {
+			ScriptableRenderContext.EmitWorldGeometryForSceneView(camera);//将UI Geometry
+        }
+    }
+	partial void PrepareBuffer()
+    {
+		Profiler.BeginSample("Editor Only");
+		buffer.name = SampleName = camera.name;
+		Profiler.EndSample();
+	}
+#else
+	const string SampleName = bufferName;
 
 #endif
 }
