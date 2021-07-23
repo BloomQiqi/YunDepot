@@ -48,6 +48,11 @@ public partial class CameraRenderer
 		context.DrawSkybox(camera);
 
 		//透明渲染
+		DrawTransparentVisibleGeometry(sortingSettings, drawingSettings, filteringSettings);
+	}
+	//透明渲染
+	void DrawTransparentVisibleGeometry(SortingSettings sortingSettings, DrawingSettings drawingSettings, FilteringSettings filteringSettings)
+    {
 		sortingSettings.criteria = SortingCriteria.CommonTransparent;
 		drawingSettings.sortingSettings = sortingSettings;
 		filteringSettings.renderQueueRange = RenderQueueRange.transparent;
@@ -56,6 +61,7 @@ public partial class CameraRenderer
 			cullingResults, ref drawingSettings, ref filteringSettings
 		);
 	}
+
 	void Setup()
 	{
 		context.SetupCameraProperties(camera);//在清除渲染目标之前调用则可清除相机属性的设置 否则会使用一个全屏的着色器填充清除
