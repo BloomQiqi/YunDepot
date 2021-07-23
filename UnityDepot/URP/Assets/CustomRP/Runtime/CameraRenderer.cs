@@ -15,7 +15,7 @@ public partial class CameraRenderer
 
 	CullingResults cullingResults;//剔除后的结果
 
-	static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnilt");//?????
+	static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");//?????
 
 	public void Render(ScriptableRenderContext context, Camera camera)
 	{
@@ -28,6 +28,7 @@ public partial class CameraRenderer
         {
 			return;
         }
+
 		Setup();
 		DrawVisibleGeometry();
         DrawUnsupportedShaders();
@@ -58,7 +59,10 @@ public partial class CameraRenderer
 	void Setup()
 	{
 		context.SetupCameraProperties(camera);//在清除渲染目标之前调用则可清除相机属性的设置 否则会使用一个全屏的着色器填充清除
-		buffer.ClearRenderTarget(true, true, Color.clear);
+		CameraClearFlags flags = camera.clearFlags; 
+		buffer.ClearRenderTarget(
+			flags <= CameraClearFlags.Depth, flags == CameraClearFlags.Color, 
+			flags == CameraClearFlags.Color ? camera.backgroundColor.linear : Color.clear);//是否清除深度缓冲区 颜色缓冲区 用什么颜色清除 [深度值 = 1]
 		buffer.BeginSample(SampleName);
 		//设置相机的一些属性 例如 视图投影矩阵 unity_MatrixVP
 		ExecuteBuffer();

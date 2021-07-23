@@ -33,8 +33,7 @@ public partial class CameraRenderer
         }
 		DrawingSettings drawingSettings = new DrawingSettings(
 			legacyShaderTagIds[0], new SortingSettings(camera)
-			)
-		{
+		){
 			overrideMaterial = errorMaterial,	
 		};
 		for(int i = 1; i < legacyShaderTagIds.Length; i++)
