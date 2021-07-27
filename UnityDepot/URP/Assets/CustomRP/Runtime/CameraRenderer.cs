@@ -30,7 +30,7 @@ public partial class CameraRenderer
         }
 
 		Setup();
-		DrawVisibleGeometry();
+		DrawVisibleGeometry();//不透明 天空盒 透明
         DrawUnsupportedShaders();
         DrawGizmos();//绘制 如scene场景下 摄像机的范围线
         Submit();
@@ -76,7 +76,7 @@ public partial class CameraRenderer
 	void Submit()
     {
 		buffer.EndSample(SampleName);
-		ExecuteBuffer();
+		ExecuteBuffer();//将缓冲
 		context.Submit();
     }
 

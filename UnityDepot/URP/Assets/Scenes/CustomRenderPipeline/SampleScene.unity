@@ -297,7 +297,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &549282638
 AudioListener:
   m_ObjectHideFlags: 0
@@ -315,7 +315,7 @@ Camera:
   m_GameObject: {fileID: 549282637}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 4
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -357,7 +357,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 549282637}
   m_LocalRotation: {x: -0.0106318295, y: 0.17960793, z: -0.0019527227, w: -0.98367894}
-  m_LocalPosition: {x: 63.3, y: 13.9, z: 44.4}
+  m_LocalPosition: {x: 67, y: 15.6, z: -38.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
