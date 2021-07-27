@@ -1,6 +1,8 @@
 ﻿Shader "Custom RP/Unlit/UnlitShader"
 {
-    Properties {}
+    Properties {
+        _BaseColor("BaseColor", Color) = (1.0, 1.0, 1.0, 1.0)
+    }
     SubShader
     {
         Pass { 
