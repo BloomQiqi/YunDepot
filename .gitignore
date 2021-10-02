@@ -9,6 +9,7 @@
 /UnityDepot/URP/[Bb]uilds/
 /UnityDepot/URP/[Ll]ogs/
 /UnityDepot/URP/[Mm]emoryCaptures/
+/UnityDepot/URP/ProjectSettings/ProjectSettings
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
