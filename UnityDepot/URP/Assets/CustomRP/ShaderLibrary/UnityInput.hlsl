@@ -1,8 +1,6 @@
 #ifndef CUSTOM_UNITY_INPUT_INCLUDED
 #define CUSTOM_UNITY_INPUT_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl" //1
-
 CBUFFER_START(UnityPerDraw)   //CBUFFER_SRART CBUFFER_END 是在上面的1库中定义的
 	float4x4 unity_ObjectToWorld;//内置
 	float4x4 unity_WorldToObject;

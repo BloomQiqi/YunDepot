@@ -11,7 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: d9f506a5b4a22914bb0ba3758b23a2a4, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -73,6 +73,6 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.8241661, g: 1, b: 0.6792453, a: 1}
+    - _BaseColor: {r: 0.52282625, g: 0.764151, b: 0.3244037, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
