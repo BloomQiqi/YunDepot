@@ -8,25 +8,25 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Unlit Instanced Clip
-  m_Shader: {fileID: 4800000, guid: f75296bb3d7c54300b1456adfb083c1d, type: 3}
+  m_Shader: {fileID: 4800000, guid: d9f506a5b4a22914bb0ba3758b23a2a4, type: 3}
   m_ShaderKeywords: _CLIPPING
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 5c8805d759cc642b5845cd761592c0c0, type: 3}
+        m_Texture: {fileID: 2800000, guid: 190b489dd4f64dc41b2448a4c4c840ae, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Clipping: 1
     - _Cull: 2
-    - _Cutoff: 0.271
+    - _Cutoff: 0.476
     - _DstBlend: 0
     - _SrcBlend: 1
     - _ZWrite: 1
