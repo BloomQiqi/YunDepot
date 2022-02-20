@@ -44,171 +44,271 @@ namespace HoudiniEngineUnity
 	public static bool GetToggle(HEU_HoudiniAsset asset, string paramName, out bool outValue)
 	{
 	    outValue = false;
-
-	    if (asset == null || asset.Parameters == null)
+	    HEU_ParameterData paramData = asset.Parameters.GetParameter(paramName);
+	    if (paramData != null && paramData.IsToggle())
 	    {
+		outValue = paramData._toggle;
+		return true;
+	    }
+	    else
+	    {
+		HEU_Logger.LogWarningFormat("{0}: Query failed. Asset [{0}]'s Parameter [{1}] is not a valid toggle!", asset.AssetName, paramName);
 		return false;
 	    }
-
-	    return asset.Parameters.GetBoolParameterValue(paramName, out outValue);
 	}
 
 	public static bool SetToggle(HEU_HoudiniAsset asset, string paramName, bool setValue)
 	{
-	    if (asset == null || asset.Parameters == null)
+	    HEU_ParameterData paramData = asset.Parameters.GetParameter(paramName);
+	    if (paramData != null && paramData.IsToggle())
 	    {
+		paramData._toggle = setValue;
+		return true;
+	    }
+	    else
+	    {
+		HEU_Logger.LogWarningFormat("{0}: Set failed. Asset [{0}]'s Parameter [{1}] is not a valid toggle!", asset.AssetName, paramName);
 		return false;
 	    }
-
-	    return asset.Parameters.SetBoolParameterValue(paramName, setValue);
 	}
 
 	public static bool GetInt(HEU_HoudiniAsset asset, string paramName, out int outValue)
 	{
 	    outValue = 0;
-	    if (asset == null || asset.Parameters == null)
+	    HEU_ParameterData paramData = asset.Parameters.GetParameter(paramName);
+	    if (paramData != null && paramData.IsInt())
 	    {
+		outValue = paramData._intValues[0];
+		return true;
+	    }
+	    else
+	    {
+		HEU_Logger.LogWarningFormat("{0}: Query failed. Asset [{0}]'s Parameter [{1}] is not a valid int!", asset.AssetName, paramName);
 		return false;
 	    }
-
-	    return asset.Parameters.GetIntParameterValue(paramName, out outValue);
 	}
 
 	public static bool SetInt(HEU_HoudiniAsset asset, string paramName, int setValue)
 	{
-	    if (asset == null || asset.Parameters == null)
+	    HEU_ParameterData paramData = asset.Parameters.GetParameter(paramName);
+	    if (paramData != null && paramData.IsInt())
 	    {
+		paramData._intValues[0] = setValue;
+		return true;
+	    }
+	    else
+	    {
+		HEU_Logger.LogWarningFormat("{0}: Set failed. Asset [{0}]'s Parameter [{1}] is not a valid int!", asset.AssetName, paramName);
 		return false;
 	    }
-
-	    return asset.Parameters.SetIntParameterValue(paramName, setValue);
 	}
 
 	public static bool GetFloat(HEU_HoudiniAsset asset, string paramName, out float outValue)
 	{
 	    outValue = 0;
-	    if (asset == null || asset.Parameters == null)
+	    HEU_ParameterData paramData = asset.Parameters.GetParameter(paramName);
+	    if (paramData != null && paramData.IsFloat())
 	    {
+		outValue = paramData._floatValues[0];
+		return true;
+	    }
+	    else
+	    {
+		HEU_Logger.LogWarningFormat("{0}: Query failed. Asset [{0}]'s Parameter [{1}] is not a valid float!", asset.AssetName, paramName);
 		return false;
 	    }
-
-	    return asset.Parameters.GetFloatParameterValue(paramName, out outValue);
 	}
 
 	public static bool GetFloats(HEU_HoudiniAsset asset, string paramName, out float[] outValues)
 	{
-	    outValues = null;
-	    if (asset == null || asset.Parameters == null)
+	    HEU_ParameterData paramData = asset.Parameters.GetParameter(paramName);
+	    if (paramData != null && paramData.IsFloat())
 	    {
+		outValues = paramData._floatValues;
+		return true;
+	    }
+	    else
+	    {
+		outValues = new float[0];
+		HEU_Logger.LogWarningFormat("{0}: Query failed. Asset [{0}]'s Parameter [{1}] is not a valid float!", asset.AssetName, paramName);
 		return false;
 	    }
-
-	    return asset.Parameters.GetFloatParameterValues(paramName, out outValues);
 	}
 
 	public static bool SetFloat(HEU_HoudiniAsset asset, string paramName, float setValue)
 	{
-	    if (asset == null || asset.Parameters == null)
+	    HEU_ParameterData paramData = asset.Parameters.GetParameter(paramName);
+	    if (paramData != null && paramData.IsFloat())
 	    {
+		paramData._floatValues[0] = setValue;
+		return true;
+	    }
+	    else
+	    {
+		HEU_Logger.LogWarningFormat("{0}: Set failed. Asset [{0}]'s Parameter [{1}] is not a valid float!", asset.AssetName, paramName);
 		return false;
 	    }
-
-	    return asset.Parameters.SetFloatParameterValue(paramName, setValue);
 	}
 
 	public static bool SetFloats(HEU_HoudiniAsset asset, string paramName, float[] setValues)
 	{
-	    if (asset == null || asset.Parameters == null)
+	    HEU_ParameterData paramData = asset.Parameters.GetParameter(paramName);
+	    if (paramData != null && paramData.IsFloat())
 	    {
+		paramData._floatValues = setValues;
+		return true;
+	    }
+	    else
+	    {
+		HEU_Logger.LogWarningFormat("{0}: Set failed. Asset [{0}]'s Parameter [{1}] is not a valid float!", asset.AssetName, paramName);
 		return false;
 	    }
-
-	    return asset.Parameters.SetFloatParameterValues(paramName, setValues);
 	}
 
 	public static bool GetString(HEU_HoudiniAsset asset, string paramName, out string outValue)
 	{
 	    outValue = null;
-	    if (asset == null || asset.Parameters == null)
+	    HEU_ParameterData paramData = asset.Parameters.GetParameter(paramName);
+	    if (paramData != null && (paramData.IsString() || paramData.IsPathFile()))
 	    {
+		outValue = paramData._stringValues[0];
+		return true;
+	    }
+	    else
+	    {
+		HEU_Logger.LogWarningFormat("{0}: Query failed. Asset [{0}]'s Parameter [{1}] is not a valid string!", asset.AssetName, paramName);
 		return false;
 	    }
-
-	    return asset.Parameters.GetStringParameterValue(paramName, out outValue);
 	}
 
 	public static bool SetString(HEU_HoudiniAsset asset, string paramName, string setValue)
 	{
-	    if (asset == null || asset.Parameters == null)
+	    HEU_ParameterData paramData = asset.Parameters.GetParameter(paramName);
+	    if (paramData != null && (paramData.IsString() || paramData.IsPathFile()))
 	    {
+		paramData._stringValues[0] = setValue;
+		return true;
+	    }
+	    else
+	    {
+		HEU_Logger.LogWarningFormat("{0}: Set failed. Asset [{0}]'s Parameter [{1}] is not a valid string!", asset.AssetName, paramName);
 		return false;
 	    }
-
-	    return asset.Parameters.SetStringParameterValue(paramName, setValue);
 	}
 
 	public static bool SetChoice(HEU_HoudiniAsset asset, string paramName, int setValue)
 	{
-	    if (asset == null || asset.Parameters == null)
+	    HEU_ParameterData paramData = asset.Parameters.GetParameter(paramName);
+	    if (paramData._parmInfo.scriptType == HAPI_PrmScriptType.HAPI_PRM_SCRIPT_TYPE_BUTTONSTRIP)
 	    {
+		HEU_Logger.LogWarning("This should not be called with button strips");
 		return false;
 	    }
 
-	    return asset.Parameters.SetChoiceParameterValue(paramName, setValue);
+	    if (paramData != null && paramData._parmInfo.choiceCount > 0 && setValue >= 0 && setValue < paramData._choiceIntValues.Length)
+	    {
+		paramData._intValues[0] = paramData._choiceIntValues[setValue];
+		return true;
+	    }
+	    else
+	    {
+		HEU_Logger.LogWarningFormat("{0}: Set failed. Asset [{0}]'s Parameter [{1}] is not a valid choice!", asset.AssetName, paramName);
+		return false;
+	    }
 	}
 
 	public static bool GetChoice(HEU_HoudiniAsset asset, string paramName, out int outValue)
 	{
 	    outValue = 0;
-	    if (asset == null || asset.Parameters == null)
+	    HEU_ParameterData paramData = asset.Parameters.GetParameter(paramName);
+	    if (paramData._parmInfo.scriptType == HAPI_PrmScriptType.HAPI_PRM_SCRIPT_TYPE_BUTTONSTRIP)
 	    {
+		HEU_Logger.LogWarning("This should not be called with button strips");
 		return false;
 	    }
 
-	    return asset.Parameters.GetChoiceParameterValue(paramName, out outValue);
+	    if (paramData != null && paramData._parmInfo.choiceCount > 0)
+	    {
+		outValue = paramData._intValues[0];
+		return true;
+	    }
+	    else
+	    {
+		HEU_Logger.LogWarningFormat("{0}: Query failed. Asset [{0}]'s Parameter [{1}] is not a valid choice!", asset.AssetName, paramName);
+		return false;
+	    }
 	}
 
 	public static bool SetInputNode(HEU_HoudiniAsset asset, string paramName, GameObject obj, int index)
 	{
-	    if (asset == null || asset.Parameters == null)
+	    HEU_ParameterData paramData = asset.Parameters.GetParameter(paramName);
+	    if (paramData != null && paramData._paramInputNode != null)
 	    {
+		if (index < paramData._paramInputNode.NumInputEntries())
+		{
+		    paramData._paramInputNode.InsertInputEntry(index, obj);
+		}
+		else
+		{
+		    paramData._paramInputNode.AddInputEntryAtEnd(obj);
+		}
+
+		paramData._paramInputNode.RequiresUpload = true;
+
+		return true;
+	    }
+	    else
+	    {
+		HEU_Logger.LogWarningFormat("{0}: Set failed. Asset [{0}]'s Parameter [{1}] is not a valid input parameter!", asset.AssetName, paramName);
 		return false;
 	    }
-
-	    return asset.Parameters.SetAssetRefParameterValue(paramName, obj);
 	}
 
 	public static bool GetInputNode(HEU_HoudiniAsset asset, string paramName, int index, out GameObject obj)
 	{
 	    obj = null;
-	    if (asset == null || asset.Parameters == null)
+	    HEU_ParameterData paramData = asset.Parameters.GetParameter(paramName);
+	    if (paramData != null && paramData._paramInputNode != null)
 	    {
+		obj = paramData._paramInputNode.GetInputEntryGameObject(index);
+		return obj != null;
+	    }
+	    else
+	    {
+		HEU_Logger.LogWarningFormat("{0}: Set failed. Asset [{0}]'s Parameter [{1}] is not a valid input parameter!", asset.AssetName, paramName);
 		return false;
 	    }
-
-	    return asset.Parameters.GetAssetRefParameterValue(paramName, out obj);
 	}
 
 	public static bool GetColor(HEU_HoudiniAsset asset, string paramName, out Color getValue)
 	{
-	    getValue = Color.black;
-
-	    if (asset == null || asset.Parameters == null)
+	    HEU_ParameterData paramData = asset.Parameters.GetParameter(paramName);
+	    if (paramData != null && paramData.IsColor())
 	    {
+		getValue = paramData._color;
+		return true;
+	    }
+	    else
+	    {
+		getValue = Color.white;
+		HEU_Logger.LogWarningFormat("{0}: Query failed. Asset [{0}]'s Parameter [{1}] is not a valid color!", asset.AssetName, paramName);
 		return false;
 	    }
-
-	    return asset.Parameters.GetColorParameterValue(paramName, out getValue);
 	}
 
 	public static bool SetColor(HEU_HoudiniAsset asset, string paramName, Color setValue)
 	{
-	    if (asset == null || asset.Parameters == null)
+	    HEU_ParameterData paramData = asset.Parameters.GetParameter(paramName);
+	    if (paramData != null && paramData.IsColor())
 	    {
+		paramData._color = setValue;
+		return true;
+	    }
+	    else
+	    {
+		HEU_Logger.LogWarningFormat("{0}: Set failed. Asset [{0}]'s Parameter [{1}] is not a valid color!", asset.AssetName, paramName);
 		return false;
 	    }
-
-	    return asset.Parameters.SetColorParameterValue(paramName, setValue);
 	}
 
 	public static int GetParameterIndexFromName(HEU_SessionBase session, HAPI_ParmInfo[] parameters, string parameterName)

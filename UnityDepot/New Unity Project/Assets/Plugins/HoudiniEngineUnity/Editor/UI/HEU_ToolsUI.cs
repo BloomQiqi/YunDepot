@@ -118,8 +118,7 @@ namespace HoudiniEngineUnity
 	private Vector3 _dragMouseStart;
 
 	// List of editable nodes and their attributes
-	[SerializeField]
-	internal List<HEU_AttributesStore> _attributesStores = new List<HEU_AttributesStore>();
+	public List<HEU_AttributesStore> _attributesStores = new List<HEU_AttributesStore>();
 
 	// Map of attributes and their serialized data
 	private Dictionary<HEU_AttributesStore, SerializedObject> _serializedAttributesStoresCache = new Dictionary<HEU_AttributesStore, SerializedObject>();

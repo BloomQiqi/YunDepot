@@ -47,7 +47,7 @@ namespace HoudiniEngineUnity
 
 	// LOGIC ------------------------------------------------------------------------------------------------------
 
-	internal List<HEU_Handle> CacheHandles()
+	public List<HEU_Handle> CacheHandles()
 	{
 	    List<HEU_Handle> handles = new List<HEU_Handle>();
 	    foreach (Object targetObject in targets)
@@ -251,7 +251,7 @@ namespace HoudiniEngineUnity
 	    return bChanged;
 	}
 
-	internal bool UpdateFloatArrayProperty(SerializedProperty paramDataProperty, float[] inValues, HEU_HandleParamBinding bindingParam)
+	public bool UpdateFloatArrayProperty(SerializedProperty paramDataProperty, float[] inValues, HEU_HandleParamBinding bindingParam)
 	{
 	    bool bChanged = false;
 	    SerializedProperty floatValuesProperty = paramDataProperty.FindPropertyRelative("_floatValues");

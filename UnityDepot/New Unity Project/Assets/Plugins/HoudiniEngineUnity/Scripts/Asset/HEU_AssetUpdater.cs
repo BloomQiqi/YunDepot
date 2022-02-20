@@ -36,15 +36,6 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-// Expose internal classes/functions
-#if UNITY_EDITOR
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("HoudiniEngineUnityEditor")]
-[assembly: InternalsVisibleTo("HoudiniEngineUnityEditorTests")]
-[assembly: InternalsVisibleTo("HoudiniEngineUnityPlayModeTests")]
-#endif
-
 namespace HoudiniEngineUnity
 {
     /// <summary>
@@ -54,7 +45,7 @@ namespace HoudiniEngineUnity
 #if UNITY_EDITOR && HOUDINIENGINEUNITY_ENABLED
     [InitializeOnLoad]
 #endif
-    internal class HEU_AssetUpdater
+    public class HEU_AssetUpdater
     {
 #if UNITY_EDITOR && HOUDINIENGINEUNITY_ENABLED
 	private static List<HEU_HoudiniAsset> _allHoudiniAssets = new List<HEU_HoudiniAsset>();
@@ -176,7 +167,7 @@ namespace HoudiniEngineUnity
 	/// so this notifies user and provides a way to clean up the created prefab.
 	/// </summary>
 	/// <param name="instance">New prefab instance that was created</param>
-	private static void OnPrefabInstanceUpdate(GameObject instance)
+	static void OnPrefabInstanceUpdate(GameObject instance)
 	{
 #if UNITY_EDITOR && HOUDINIENGINEUNITY_ENABLED && UNITY_2017_1_OR_NEWER
 

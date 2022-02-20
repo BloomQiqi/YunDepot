@@ -1056,18 +1056,18 @@ namespace HoudiniEngineUnity
 	/// <param name="bRecursive">Whether or not to compose the list recursively</param>
 	/// <param name="childNodeIDs">Array to store the child node IDs.
 	/// <returns>True if successfully retrieved the child node list</returns>
-	public static bool GetComposedChildNodeList(HEU_SessionBase session, HAPI_NodeId parentNodeID, HAPI_NodeTypeBits nodeTypeFilter, HAPI_NodeFlagsBits nodeFlagFilter, bool bRecursive, out HAPI_NodeId[] childNodeIDs, bool bLogIfError = true)
+	public static bool GetComposedChildNodeList(HEU_SessionBase session, HAPI_NodeId parentNodeID, HAPI_NodeTypeBits nodeTypeFilter, HAPI_NodeFlagsBits nodeFlagFilter, bool bRecursive, out HAPI_NodeId[] childNodeIDs)
 	{
 	    childNodeIDs = null;
 	    // First compose the internal list and get the count, then get the actual list.
 	    int count = -1;
-	    bool bResult = session.ComposeChildNodeList(parentNodeID, nodeTypeFilter, nodeFlagFilter, bRecursive, ref count, bLogIfError);
+	    bool bResult = session.ComposeChildNodeList(parentNodeID, nodeTypeFilter, nodeFlagFilter, bRecursive, ref count);
 	    if (bResult)
 	    {
 		childNodeIDs = new HAPI_NodeId[count];
 		if (count > 0)
 		{
-		    return session.GetComposedChildNodeList(parentNodeID, childNodeIDs, count, bLogIfError);
+		    return session.GetComposedChildNodeList(parentNodeID, childNodeIDs, count);
 		}
 		else
 		{

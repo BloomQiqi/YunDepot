@@ -27,15 +27,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-// Expose internal classes/functions
-#if UNITY_EDITOR
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("HoudiniEngineUnityEditor")]
-[assembly: InternalsVisibleTo("HoudiniEngineUnityEditorTests")]
-[assembly: InternalsVisibleTo("HoudiniEngineUnityPlayModeTests")]
-#endif
-
 namespace HoudiniEngineUnity
 {
     /// <summary>
@@ -48,13 +39,11 @@ namespace HoudiniEngineUnity
     {
 	// Reference to the actual Houdini Engine asset gamebobject which contains
 	// all the data and logic to work with Houdini Engine
-	[SerializeField]
-	internal HEU_HoudiniAsset _houdiniAsset;
-	public HEU_HoudiniAsset HoudiniAsset { get { return _houdiniAsset; } }
+	public HEU_HoudiniAsset _houdiniAsset;
 
-	[SerializeField]
-	internal List<GameObject> _bakeTargets = new List<GameObject>();
-	public List<GameObject> BakeTargets { get { return _bakeTargets; } }
+	public List<GameObject> _bakeTargets = new List<GameObject>();
+
+
 
 	/// <summary>
 	/// Callback when asset is deleted. Removes assset from Houdini session if in Editor.
@@ -99,7 +88,7 @@ namespace HoudiniEngineUnity
 	/// Leaves this gameobject and its children including Unity-specific
 	/// components like geometry, materials, etc.
 	/// </summary>
-	internal void RemoveHoudiniEngineAssetData()
+	public void RemoveHoudiniEngineAssetData()
 	{
 	    HEU_EditorUtility.UndoRecordObject(this, "Clear References");
 	    // TODO: try Undo.RegisterCompleteObjectUndo or  RegisterFullObjectHierarchyUndo
@@ -121,18 +110,18 @@ namespace HoudiniEngineUnity
 	    HEU_EditorUtility.UndoCollapseCurrentGroup();
 	}
 
-	internal void ClearHoudiniEngineReferences()
+	public void ClearHoudiniEngineReferences()
 	{
 	    _houdiniAsset = null;
 	    _bakeTargets.Clear();
 	}
 
-	internal static void DestroyRootComponent(HEU_HoudiniAssetRoot assetRoot)
+	public static void DestroyRootComponent(HEU_HoudiniAssetRoot assetRoot)
 	{
 	    HEU_GeneralUtility.DestroyImmediate(assetRoot, bRegisterUndo: true);
 	}
 
-	internal void Reset()
+	void Reset()
 	{
 	    // Unity calls this to reset this component.
 	    // _houdiniAsset will be null since that is the default value.

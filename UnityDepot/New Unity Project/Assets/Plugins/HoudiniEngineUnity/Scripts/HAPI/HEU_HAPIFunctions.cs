@@ -136,10 +136,6 @@ namespace HoudiniEngineUnity
                 ref HAPI_Session session);
         [DllImport(HEU_HoudiniVersion.HAPI_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         public static extern HAPI_Result
-        HAPI_Shutdown(
-                ref HAPI_Session session);
-        [DllImport(HEU_HoudiniVersion.HAPI_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
-        public static extern HAPI_Result
         HAPI_GetEnvInt(
                 HAPI_EnvIntType int_type,
                 out int value);
@@ -2130,13 +2126,6 @@ namespace HoudiniEngineUnity
         [DllImport(HEU_HoudiniVersion.HAPI_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
         public static extern HAPI_Result
         HAPI_CookPDG(
-                ref HAPI_Session session,
-                HAPI_NodeId cook_node_id,
-                int generate_only,
-                int blocking);
-        [DllImport(HEU_HoudiniVersion.HAPI_LIBRARY, CallingConvention = CallingConvention.Cdecl)]
-        public static extern HAPI_Result
-        HAPI_CookPDGAllOutputs(
                 ref HAPI_Session session,
                 HAPI_NodeId cook_node_id,
                 int generate_only,

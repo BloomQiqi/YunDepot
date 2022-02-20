@@ -1322,10 +1322,10 @@ namespace HoudiniEngineUnity
 	/// <param name="nodeID">The node to retrieve the asset info for</param>
 	/// <param name="assetInfo">The asset info structure to populate</param>
 	/// <returns>True if successfully queried the asset info</returns>
-	public override bool GetAssetInfo(HAPI_NodeId nodeID, ref HAPI_AssetInfo assetInfo, bool bLogError)
+	public override bool GetAssetInfo(HAPI_NodeId nodeID, ref HAPI_AssetInfo assetInfo)
 	{
 	    HAPI_Result result = HEU_HAPIFunctions.HAPI_GetAssetInfo(ref _sessionData._HAPISession, nodeID, out assetInfo);
-	    HandleStatusResult(result, "Getting Asset Info", false, bLogError);
+	    HandleStatusResult(result, "Getting Asset Info", false, true);
 	    return (result == HAPI_Result.HAPI_RESULT_SUCCESS);
 	}
 

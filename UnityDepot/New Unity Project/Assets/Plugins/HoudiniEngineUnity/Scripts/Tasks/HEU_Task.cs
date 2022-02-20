@@ -133,7 +133,7 @@ namespace HoudiniEngineUnity
 		    {
 			// Add to post-load callback
 			_asset = newGO.GetComponent<HEU_HoudiniAssetRoot>()._houdiniAsset;
-			_asset.ReloadDataEvent.AddListener(CookCompletedCallback);
+			_asset._reloadDataEvent.AddListener(CookCompletedCallback);
 		    }
 		    else
 		    {
@@ -143,14 +143,14 @@ namespace HoudiniEngineUnity
 	    }
 	    else if (_buildType == BuildType.COOK)
 	    {
-		_asset.CookedDataEvent.RemoveListener(CookCompletedCallback);
-		_asset.CookedDataEvent.AddListener(CookCompletedCallback);
+		_asset._cookedDataEvent.RemoveListener(CookCompletedCallback);
+		_asset._cookedDataEvent.AddListener(CookCompletedCallback);
 		_asset.RequestCook(true, true, false, true);
 	    }
 	    else if (_buildType == BuildType.RELOAD)
 	    {
-		_asset.ReloadDataEvent.RemoveListener(CookCompletedCallback);
-		_asset.ReloadDataEvent.AddListener(CookCompletedCallback);
+		_asset._reloadDataEvent.RemoveListener(CookCompletedCallback);
+		_asset._reloadDataEvent.AddListener(CookCompletedCallback);
 		_asset.RequestReload(true);
 	    }
 	}
@@ -159,8 +159,8 @@ namespace HoudiniEngineUnity
 	{
 	    if (_asset != null)
 	    {
-		_asset.ReloadDataEvent.RemoveListener(CookCompletedCallback);
-		_asset.CookedDataEvent.RemoveListener(CookCompletedCallback);
+		_asset._reloadDataEvent.RemoveListener(CookCompletedCallback);
+		_asset._cookedDataEvent.RemoveListener(CookCompletedCallback);
 	    }
 	}
 
@@ -168,8 +168,8 @@ namespace HoudiniEngineUnity
 	{
 	    if (_asset != null)
 	    {
-		_asset.ReloadDataEvent.RemoveListener(CookCompletedCallback);
-		_asset.CookedDataEvent.RemoveListener(CookCompletedCallback);
+		_asset._reloadDataEvent.RemoveListener(CookCompletedCallback);
+		_asset._cookedDataEvent.RemoveListener(CookCompletedCallback);
 	    }
 	}
 

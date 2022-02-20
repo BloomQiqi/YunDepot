@@ -40,7 +40,7 @@ namespace HoudiniEngineUnity
     /// Currently only supports transform (xform) handle.
     /// </summary>
     [System.Serializable]
-    internal class HEU_Handle : ScriptableObject, IEquivable<HEU_Handle>
+    public class HEU_Handle : ScriptableObject, IEquivable<HEU_Handle>
     {
 	public enum HEU_HandleType
 	{

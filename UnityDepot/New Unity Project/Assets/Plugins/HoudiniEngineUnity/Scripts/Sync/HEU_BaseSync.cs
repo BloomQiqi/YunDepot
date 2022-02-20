@@ -32,7 +32,6 @@ using System.Text;
 using System.Collections.Generic;
 
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace HoudiniEngineUnity
 {
@@ -40,20 +39,6 @@ namespace HoudiniEngineUnity
     // Typedefs (copy these from HEU_Common.cs)
     using HAPI_NodeId = System.Int32;
     using HAPI_PartId = System.Int32;
-
-    public class HEU_SyncedEventData
-    {
-	public bool CookSuccess;
-	public HEU_ThreadedTaskLoadGeo.HEU_LoadData TopNodeData;
-	public HEU_BaseSync OutputObject;
-
-	public HEU_SyncedEventData(bool bSuccess, HEU_ThreadedTaskLoadGeo.HEU_LoadData bTopNodeData, HEU_BaseSync bOutputObject)
-	{
-	    CookSuccess = bSuccess;
-	    TopNodeData = bTopNodeData;
-	    OutputObject = bOutputObject;
-	}
-    }
 
     [ExecuteInEditMode] // Needed to get OnDestroy callback when deleted in Editor
     public class HEU_BaseSync : MonoBehaviour
@@ -244,11 +229,11 @@ namespace HoudiniEngineUnity
 
 	    string outputPath = HEU_AssetDatabase.CreateUniqueBakePath(this.gameObject.name);
 
-	    GameObject parentObj = HEU_GeneralUtility.CreateNewGameObject(this.gameObject.name);
+	    GameObject parentObj = new GameObject(this.gameObject.name);
 
 	    foreach (HEU_GeneratedOutput generatedOutput in _generatedOutputs)
 	    {
-		GameObject obj = HEU_GeneralUtility.CreateNewGameObject(generatedOutput._outputData._gameObject.name);
+		GameObject obj = new GameObject(generatedOutput._outputData._gameObject.name);
 
 		generatedOutput.WriteOutputToAssetCache(obj, outputPath, generatedOutput.IsInstancer);
 
@@ -321,12 +306,6 @@ namespace HoudiniEngineUnity
 
 	    _firstSyncComplete = true;
 	    _syncing = false;
-
-	    bool bSuccess = loadData._loadStatus == HEU_ThreadedTaskLoadGeo.HEU_LoadData.LoadStatus.SUCCESS;
-	    if (_onSynced != null)
-	    {
-		_onSynced.Invoke(new HEU_SyncedEventData(bSuccess, loadData, this));
-	    }
 	}
 
 	public virtual void GenerateObjects(HEU_ThreadedTaskLoadGeo.HEU_LoadData loadData)
@@ -367,10 +346,6 @@ namespace HoudiniEngineUnity
 
 	    Log(loadData._logStr.ToString());
 	    _cookNodeID = loadData._cookNodeID;
-	    if (_onSynced != null)
-	    {
-		_onSynced.Invoke(new HEU_SyncedEventData(false, null, this));
-	    }
 	}
 
 	#endregion
@@ -391,7 +366,7 @@ namespace HoudiniEngineUnity
 	    {
 		if (terrainBuffers[t]._heightMap != null)
 		{
-		    GameObject newGameObject = HEU_GeneralUtility.CreateNewGameObject("heightfield_" + terrainBuffers[t]._tileIndex);
+		    GameObject newGameObject = new GameObject("heightfield_" + terrainBuffers[t]._tileIndex);
 
 		    HAPI_PartId partId = terrainBuffers[t]._id;
 
@@ -757,7 +732,7 @@ namespace HoudiniEngineUnity
 	    {
 		if (meshBuffers[m]._geoCache != null)
 		{
-		    GameObject newGameObject = HEU_GeneralUtility.CreateNewGameObject("mesh_" + meshBuffers[m]._geoCache._partName);
+		    GameObject newGameObject = new GameObject("mesh_" + meshBuffers[m]._geoCache._partName);
 
 		    HAPI_PartId partId = meshBuffers[m]._geoCache.PartID;
 
@@ -845,7 +820,7 @@ namespace HoudiniEngineUnity
 
 	    Transform parent = this.gameObject.transform;
 
-	    GameObject instanceRootGO = HEU_GeneralUtility.CreateNewGameObject("instance_" + instancerBuffer._name);
+	    GameObject instanceRootGO = new GameObject("instance_" + instancerBuffer._name);
 
 	    HAPI_PartId partId = instancerBuffer._id;
 
@@ -1041,7 +1016,7 @@ namespace HoudiniEngineUnity
 			    // Even though the source Unity object is not found, we should create an object instance info to track it
 			    if (tempGO == null)
 			    {
-				tempGO = HEU_GeneralUtility.CreateNewGameObject();
+				tempGO = new GameObject();
 			    }
 			    unitySrcGO = tempGO;
 			}
@@ -1108,7 +1083,7 @@ namespace HoudiniEngineUnity
 	    }
 
 	    // To get the instance output name, we pass in the instance index. The actual name will be +1 from this.
-	    HEU_GeneralUtility.RenameGameObject(newInstanceGO, HEU_GeometryUtility.GetInstanceOutputName(instanceName, instancePrefixes, instanceIndex));
+	    newInstanceGO.name = HEU_GeometryUtility.GetInstanceOutputName(instanceName, instancePrefixes, instanceIndex);
 
 	    HEU_GeneralUtility.CopyFlags(assetSourceGO, newInstanceGO, true);
 
@@ -1239,9 +1214,6 @@ namespace HoudiniEngineUnity
 	public StringBuilder _error = new StringBuilder();
 
 	public bool _sessionSyncAutoCook = true;
-
-	private System.Action<HEU_SyncedEventData> _onSynced;
-	public System.Action<HEU_SyncedEventData> OnSynced { get { return _onSynced; } set { _onSynced = value; } }
 
 	protected HEU_ThreadedTaskLoadGeo _loadTask;
 

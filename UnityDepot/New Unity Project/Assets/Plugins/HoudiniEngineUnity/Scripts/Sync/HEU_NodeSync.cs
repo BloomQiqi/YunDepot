@@ -157,7 +157,7 @@ namespace HoudiniEngineUnity
 		}
 	    }
 
-	    GameObject newGO = HEU_GeneralUtility.CreateNewGameObject(nodeNabel);
+	    GameObject newGO = new GameObject(nodeNabel);
 
 	    HEU_NodeSync nodeSync = newGO.AddComponent<HEU_NodeSync>();
 	    nodeSync.InitializeFromHoudini(session, newNodeID, nodeNabel, "");

@@ -29,19 +29,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-// Expose internal classes/functions
-#if UNITY_EDITOR
-using System.Runtime.CompilerServices;
-
-[assembly: InternalsVisibleTo("HoudiniEngineUnityEditor")]
-[assembly: InternalsVisibleTo("HoudiniEngineUnityEditorTests")]
-[assembly: InternalsVisibleTo("HoudiniEngineUnityPlayModeTests")]
-#endif
-
 namespace HoudiniEngineUnity
 {
     // Super hacky way to force save data when access is limited such as undo deletion events
-    internal class HEU_AssetSerializedMetaData : ScriptableObject, IEquivable<HEU_AssetSerializedMetaData>
+    public class HEU_AssetSerializedMetaData : ScriptableObject, IEquivable<HEU_AssetSerializedMetaData>
     {
 	[SerializeField]
 	private bool _softDeleted = false;

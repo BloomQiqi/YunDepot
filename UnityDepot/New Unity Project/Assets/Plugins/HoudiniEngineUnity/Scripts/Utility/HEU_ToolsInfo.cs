@@ -35,7 +35,7 @@ namespace HoudiniEngineUnity
     using HAPI_PartId = System.Int32;
 
     [System.Serializable]
-    internal class HEU_ToolsInfo : ScriptableObject, IEquivable<HEU_ToolsInfo>
+    public class HEU_ToolsInfo : ScriptableObject, IEquivable<HEU_ToolsInfo>
     {
 	public float _paintBrushSize = 1f;
 

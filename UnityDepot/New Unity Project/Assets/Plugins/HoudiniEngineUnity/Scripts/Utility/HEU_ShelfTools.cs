@@ -539,53 +539,14 @@ namespace HoudiniEngineUnity
 	    }
 	}
 
-	public static bool IsValidInputMesh(GameObject gameObject)
-	{
-	    if (gameObject == null)
-	    {
-		return false;
-	    }
-	
-	    if (gameObject.GetComponent<MeshFilter>() && gameObject.GetComponent<MeshFilter>().sharedMesh != null)
-	        return true;
-	
-	    if (gameObject.GetComponent<Terrain>())
-	        return true;
-	
-	    if (gameObject.GetComponent<HEU_BoundingVolume>())
-	        return true;
-
-	    if (gameObject.GetComponent<UnityEngine.Tilemaps.Tilemap>())
-	        return true;
-	
-	    return false;
-	}
-
-	public static bool IsValidInputHDA(GameObject gameObject)
+	public static bool IsValidInput(GameObject gameObject)
 	{
 	    if (gameObject != null)
 	    {
-		return gameObject.GetComponent<HEU_HoudiniAssetRoot>() != null;
+		MeshFilter meshfilter = gameObject.GetComponent<MeshFilter>();
+		return (meshfilter != null && meshfilter.sharedMesh != null);
 	    }
 	    return false;
-	}
-
-	private static bool ShouldUseHDA(GameObject[] gameObjectList)
-	{
-	    if (gameObjectList == null)
-	    {
-		return false;
-	    }
-
-	    for (int i = 0; i < gameObjectList.Length; i++)
-	    {
-		if (!IsValidInputHDA(gameObjectList[i]))
-		{
-		    return false;
-		}
-	    }
-
-	    return true;
 	}
 
 	public static void ExecuteToolNoInput(string toolName, string toolPath)
@@ -605,30 +566,15 @@ namespace HoudiniEngineUnity
 	{
 	    // Single operator means single asset input. If multiple inputs are provided, create tool for each input.
 
-	    bool bShouldUseHDA = ShouldUseHDA(inputObjects);
-
 	    List<GameObject> outputObjectsToSelect = new List<GameObject>();
 
 	    int numInputs = inputObjects.Length;
 	    for (int i = 0; i < numInputs; ++i)
 	    {
-		if (inputObjects[i] == null)
+		if (!IsValidInput(inputObjects[i]))
 		{
 		    continue;
 		}
-
-		if (!bShouldUseHDA && !IsValidInputMesh(inputObjects[i]))
-		{
-		    HEU_Logger.LogWarningFormat("Specified object {0} does not contain a valid mesh!", inputObjects[i].name);
-		    continue;
-		}
-
-		if (bShouldUseHDA && !IsValidInputHDA(inputObjects[i]))
-		{
-		    HEU_Logger.LogWarningFormat("Specified object {0} does not contain a valid HDA input!", inputObjects[i].name);
-		    continue;
-		}
-
 		GameObject inputObject = inputObjects[i];
 
 		GameObject go = HEU_HAPIUtility.InstantiateHDA(toolPath, Vector3.zero, HEU_SessionManager.GetOrCreateDefaultSession(), false);
@@ -651,46 +597,24 @@ namespace HoudiniEngineUnity
 
 			    inputNode.ResetInputNode(session);
 
-			    if (!bShouldUseHDA)
+			    inputNode.ChangeInputType(session, HEU_InputNode.InputObjectType.UNITY_MESH);
+
+			    HEU_InputObjectInfo inputInfo = inputNode.AddInputEntryAtEndMesh(inputObject);
+			    if (inputInfo != null)
 			    {
-				inputNode.ChangeInputType(session, HEU_InputNode.InputObjectType.UNITY_MESH);
+				inputInfo._useTransformOffset = false;
+				inputNode.KeepWorldTransform = true;
+				inputNode.PackGeometryBeforeMerging = false;
 
-				HEU_InputObjectInfo inputInfo = inputNode.AddInputEntryAtEndMesh(inputObject);
-				if (inputInfo != null)
-				{
-				    inputInfo._useTransformOffset = false;
-				    inputNode.KeepWorldTransform = true;
-				    inputNode.PackGeometryBeforeMerging = false;
+				inputNode.RequiresUpload = true;
 
-				    inputNode.RequiresUpload = true;
+				asset.RequestCook(true, true, true, true);
 
-				    asset.RequestCook(true, true, true, true);
-
-				    outputObjectsToSelect.Add(assetRoot.gameObject);
-				}
-				else
-				{
-				    HEU_Logger.LogErrorFormat("Invalid input format: {0}", inputObject.gameObject.name);
-				}
+				outputObjectsToSelect.Add(assetRoot.gameObject);
 			    }
 			    else
 			    {
-				inputNode.ChangeInputType(session, HEU_InputNode.InputObjectType.HDA);
-
-				HEU_InputHDAInfo inputHDAInfo = inputNode.AddInputEntryAtEndHDA(inputObject);
-				if (inputHDAInfo != null)
-				{
-				    inputNode.KeepWorldTransform = true;
-				    inputNode.PackGeometryBeforeMerging = false;
-
-				    inputNode.RequiresUpload = true;
-				    asset.RequestCook(true, true, true, true);
-				    outputObjectsToSelect.Add(assetRoot.gameObject);
-				}
-				else
-				{
-				    HEU_Logger.LogErrorFormat("Invalid input format: {0}", inputObject.gameObject.name);
-				}
+				HEU_Logger.LogErrorFormat("Invalid input format: {0}", inputObject.gameObject.name);
 			    }
 			}
 		    }
@@ -738,57 +662,29 @@ namespace HoudiniEngineUnity
 		    int minInputCount = Mathf.Min(inputNodes.Count, numInputs);
 		    for (int i = 0; i < minInputCount; ++i)
 		    {
-			bool bShouldUseHDA = IsValidInputHDA(inputObjects[i]);
-
-			if (!bShouldUseHDA &&!IsValidInputMesh(inputObjects[i]))
+			if (!IsValidInput(inputObjects[i]))
 			{
 			    continue;
 			}
-			else if (bShouldUseHDA && !IsValidInputHDA(inputObjects[i]))
-			{
-			    continue;
-			}
-			
 			GameObject inputObject = inputObjects[i];
 
 			HEU_InputNode inputNode = inputNodes[i];
 			inputNode.ResetInputNode(session);
 
+			inputNode.ChangeInputType(session, HEU_InputNode.InputObjectType.UNITY_MESH);
 
-			if (!bShouldUseHDA)
+			HEU_InputObjectInfo inputInfo = inputNode.AddInputEntryAtEndMesh(inputObject);
+			if (inputInfo != null)
 			{
-			    inputNode.ChangeInputType(session, HEU_InputNode.InputObjectType.UNITY_MESH);
-    
-			    HEU_InputObjectInfo inputInfo = inputNode.AddInputEntryAtEndMesh(inputObject);
-			    if (inputInfo != null)
-			    {
-			        inputInfo._useTransformOffset = false;
-			        inputNode.KeepWorldTransform = true;
-			        inputNode.PackGeometryBeforeMerging = false;
-    
-			        inputNode.RequiresUpload = true;
-			    }
-			    else
-			    {
-			        HEU_Logger.LogErrorFormat("Invalid input format: {0}", inputObject.gameObject.name);
-			    }
+			    inputInfo._useTransformOffset = false;
+			    inputNode.KeepWorldTransform = true;
+			    inputNode.PackGeometryBeforeMerging = false;
+
+			    inputNode.RequiresUpload = true;
 			}
 			else
 			{
-			    inputNode.ChangeInputType(session, HEU_InputNode.InputObjectType.HDA);
-
-			    HEU_InputHDAInfo inputHDAInfo = inputNode.AddInputEntryAtEndHDA(inputObject);
-			    if (inputHDAInfo != null)
-			    {
-			        inputNode.KeepWorldTransform = true;
-			        inputNode.PackGeometryBeforeMerging = false;
-    
-			        inputNode.RequiresUpload = true;
-			    }
-			    else
-			    {
-			        HEU_Logger.LogErrorFormat("Invalid input format: {0}", inputObject.gameObject.name);
-			    }
+			    HEU_Logger.LogErrorFormat("Invalid input format: {0}", inputObject.gameObject.name);
 			}
 		    }
 
