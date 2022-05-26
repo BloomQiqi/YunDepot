@@ -1,0 +1,145 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ForceFieldMul
+  m_Shader: {fileID: 4800000, guid: 74a131d42d63f534a91c191c8b2bbd00, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DissloveRampTex:
+        m_Texture: {fileID: 2800000, guid: 256d86d8496a4e0f947100121f1fafb2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FlowLight:
+        m_Texture: {fileID: 2800000, guid: aeb46886909512e41842722f15bb898b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FlowMap:
+        m_Texture: {fileID: 2800000, guid: f4a4b1c04c15a784ca546dc6c403e249, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HitNoise:
+        m_Texture: {fileID: 2800000, guid: 66819fafe6a64db797e1a5f6086c487f, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _HitRampTex:
+        m_Texture: {fileID: 2800000, guid: 256d86d8496a4e0f947100121f1fafb2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: 3c506748d17579d4a85691a58877ff1e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Ramp:
+        m_Texture: {fileID: 2800000, guid: 256d86d8496a4e0f947100121f1fafb2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _CullMode: 0
+    - _Cutoff: 0.5
+    - _DepthFade: 1.34
+    - _DepthFadePower: 1.22
+    - _DetailNormalMapScale: 1
+    - _DissloveAmount: 0
+    - _DissloveEdgeIntensity: 1.86
+    - _DissloveNoiseIntensity: 0.65
+    - _DissloveSpread: 2.03
+    - _DstBlend: 0
+    - _FadePower: 1
+    - _Float0: 12.8
+    - _FlowSpeed: 0.2
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _HitFadeDistance: 6
+    - _HitFadeIntensity: 0.9
+    - _HitFadePower: 1.51
+    - _HitFadeSize: 0
+    - _HitFadeSpread: 1
+    - _HitFadeStart: 1
+    - _HitMaxSize: 3
+    - _HitNoiseIntensity: 1
+    - _HitSize: 3.58
+    - _HitSizeAmount: 2.92
+    - _HitSpread: 1
+    - _HitWaveIntensity: 0.74
+    - _Metallic: 0
+    - _Mode: 0
+    - _NoiseIntensity: 1.15
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _RimBias: 0.41
+    - _RimIntensity: 4.02
+    - _RimPower: 3
+    - _RimScale: 0.99
+    - _Size: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _TimeSpeed: 4
+    - _UVSec: 0
+    - _ZWrite: 1
+    - __dirty: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DisslovePoint: {r: 2.67, g: 2.68, b: -10, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FlowStrength: {r: 0.2, g: 0.2, b: 0, a: 0}
+    - _HitNoiseTilling: {r: 1, g: 1, b: 1, a: 0}
+    - _HitPosition: {r: 12.66, g: 0.76, b: 0.08272754, a: 0}
+    - _NoiseTiling: {r: 0.2, g: 0.2, b: 0.2, a: 0}
+    - _RimColor: {r: 0.8784314, g: 0.7176471, b: 0.9960785, a: 0}

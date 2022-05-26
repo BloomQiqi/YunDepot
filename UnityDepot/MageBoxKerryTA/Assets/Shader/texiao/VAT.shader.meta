@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 53b74b032e4f7844ba4b420e87f1e259
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _Vertexanimtex: {fileID: 2800000, guid: 2b07aad8a3e062a4e9a15fd2bf3f774d, type: 3}
+  - _Vertexanimtex2: {fileID: 2800000, guid: a1f42b647b31b8a4e8a1fe0c07b0f37e, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
